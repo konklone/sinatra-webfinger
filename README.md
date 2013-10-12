@@ -2,6 +2,8 @@
 
 An easy Sinatra plugin for adding Webfinger support to your domain.
 
+**Current State:** Under rapid development to prepare for public release. Not announced, or guaranteed to be working yet.
+
 ### What is Webfinger?
 
 It's a way to attach information to your email address.
@@ -14,13 +16,11 @@ https://konklone.com/.well-known/webfinger?resource=eric@konklone.com
 
 See [webfinger.net](http://webfinger.net), [Mike Jones' description](http://www.packetizer.com/webfinger/), or Webfinger's official standard at [RFC 7033](http://tools.ietf.org/html/rfc7033) for more information.
 
-### sinatra-webfinger
+### Using sinatra-webfinger
 
-`sinatra-webfinger` is optimized for single users, where you own your domain and you want to attach information to your email address.
+`sinatra-webfinger` a small Sinatra plugin optimized for single users, where you own your domain name, and you want to attach information to your email address.
 
-**Current State:** Under rapid development to prepare for public release. Not announced, or guaranteed to be working yet.
-
-### Use
+Install it:
 
 ```bash
 gem install sinatra-webfinger
@@ -72,11 +72,38 @@ The `Content-Type` of the response will be `application/jrd+json`, and [CORS](ht
 
 ### Configuration
 
+Configure `sinatra-webfinger` by setting `Sinatra::Webfinger.config` to an array of details. Each item in the array is a hash containing the following keys and values:
+
+`acct`: Email address that the rest of the fields apply to. e.g. `yourname@example.com`.
+
+`properties`: A hash where each key is the name of a property, and each value is its value. e.g. `{"name": "Your Name"}`
+
+`links`: A hash where each key is the `rel` of the link, and each value is the `href` of the link. e.g. `{"website": "https://example.com"}`
 
 
 #### Example YAML configuration
 
+It may be easiest to serialize your Webfinger configuration in YAML, then load it into Ruby and assign it to `Sinatra::Webfinger.config`.
 
+An example YAML file for [the above example](#using-sinatra-webfinger) would be:
+
+```yaml
+webfinger:
+- acct: eric@konklone.com
+  properties:
+    name: Eric Mill
+    twitter: konklone
+  links:
+    website: https://konklone.com
+```
+
+If you saved that to `config.yml`, you might configure your application using:
+
+```ruby
+config = YAML.load_file 'config.yml'
+
+Sinatra::Webfinger.config = config['webfinger']
+```
 
 ### Public Domain
 
