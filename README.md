@@ -49,7 +49,7 @@ Sinatra::Webfinger.config = [{
 
 You might consider storing this configuration in a YAML file ([example](#example-yaml-configuration)). Either way, only string values for keys are supported (no symbols).
 
-This will produce a URL at `/.well-known/webfinger?resource=acct:eric@konklone.com` that produces:
+This will add a GET endpoint at `/.well-known/webfinger?resource=acct:eric@konklone.com` that produces:
 
 ```json
 {
@@ -67,7 +67,24 @@ This will produce a URL at `/.well-known/webfinger?resource=acct:eric@konklone.c
 }
 ```
 
+### Behavior of /.well-known/webfinger
+
 The `Content-Type` of the response will be `application/jrd+json`, and [CORS](http://enable-cors.org/) will be enabled (`Access-Control-Allow-Origin` will be `*`).
+
+A **400** will be returned if:
+
+* There is no `resource` parameter provided in the query string.
+* There's any sort of Exception while parsing the `resource` URI.
+
+A **404** will be returned if:
+
+* A URI scheme other than `acct` is submitted.
+* A `resource` is submitted for an `acct` that isn't listed in the configuration.
+
+A **500** will be returned if:
+
+* `Sinatra::Webfinger.config` has not been set to anything.
+* There is any unplanned Exception.
 
 
 ### Configuration
