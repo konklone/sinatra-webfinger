@@ -1,8 +1,18 @@
-### A Webfinger plugin for Sinatra.
+## A Webfinger plugin for Sinatra.
 
 An easy Sinatra plugin for adding Webfinger support to your domain.
 
-Optimized for single users, where you own your domain and you want to attach information to your email address.
+### What is Webfinger?
+
+It's a way to attach information to your email address.
+
+Take an email address, and ask its domain about it using HTTPS. For exampe, information about `eric@konklone.com` is available in JSON at `https://konklone.com/.well-known/webfinger?resource=eric@konklone.com`.
+
+See [webfinger.net](http://webfinger.net), [Mike Jones' description](http://www.packetizer.com/webfinger/), or Webfinger's official standard at [RFC 7033](http://tools.ietf.org/html/rfc7033) for more information.
+
+### sinatra-webfinger
+
+`sinatra-webfinger` is optimized for single users, where you own your domain and you want to attach information to your email address.
 
 **Current State:** Under rapid development to prepare for public release. Not announced, or guaranteed to be working yet.
 
