@@ -18,7 +18,7 @@ See [webfinger.net](http://webfinger.net), [Mike Jones' description](http://www.
 
 ### Using sinatra-webfinger
 
-`sinatra-webfinger` a small Sinatra plugin optimized for single users, where you own your domain name, and you want to attach information to your email address.
+**sinatra-webfinger** is a small Sinatra plugin optimized for single users, where you own your domain name, and you want to attach information to your email address.
 
 Install it:
 
