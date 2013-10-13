@@ -21,19 +21,26 @@ module Sinatra
         halt 500 unless config
         halt 400 unless (resource = params[:resource]).present?
         halt 400 unless (uri = URI.parse(resource) rescue nil)
-        halt 404 unless uri.scheme == "acct" # acct only
+        halt 404 unless (uri.scheme.nil? or uri.scheme == "acct") # acct only
 
+        # allow only email for now
         no_scheme = resource.sub /^acct:/, ''
-        account = config['accounts'].find {|acct| acct['acct'] == no_scheme}
+        account = config[no_scheme] || config[resource]
         halt 404 unless account
 
         response = {
           subject: resource,
-          properties: account['properties'],
-          links: [] # fill in next
+          properties: {},
+          links: []
         }
-        account['links'].each do |rel, href|
-          response[:links] << {rel: rel, href: href}
+
+        account.each do |field, value|
+          uri = URI.parse(value) rescue nil
+          if uri and uri.scheme and uri.scheme.starts_with?("http")
+            response[:links] << {rel: field, href: value}
+          else
+            response[:properties][field] = value
+          end
         end
 
         headers['Content-Type'] = 'application/jrd+json'
