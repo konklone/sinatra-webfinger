@@ -11,7 +11,7 @@ It's a way to attach information to your email address.
 Take an email address, and ask its domain about it using HTTPS. For example, information about `eric@konklone.com` is available in JSON at:
 
 ```
-https://konklone.com/.well-known/webfinger?resource=eric@konklone.com
+https://konklone.com/.well-known/webfinger?resource=acct:eric@konklone.com
 ```
 
 See [webfinger.net](http://webfinger.net), [Mike Jones' description](http://www.packetizer.com/webfinger/), or Webfinger's official standard at [RFC 7033](http://tools.ietf.org/html/rfc7033) for more information.
