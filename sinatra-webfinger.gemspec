@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.homepage    = 'https://github.com/konklone/sinatra-webfinger'
-  s.license     = "Public domain"
+  s.license     = "MIT"
   s.required_ruby_version = '>= 1.9.3'
 
   s.add_runtime_dependency "sinatra",">=1.3"
