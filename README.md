@@ -102,7 +102,7 @@ webfinger "eric@konklone.com" => {
   name: "Eric Mill",
   website: "https://konklone.com"
 }
-``
+```
 
 So the above example will become:
 
