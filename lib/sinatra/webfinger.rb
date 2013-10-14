@@ -24,6 +24,8 @@ module Sinatra
         }
 
         account.each do |field, value|
+          field = field.to_s # allow symbols
+
           uri = URI.parse(value) rescue nil
           if uri and uri.scheme and uri.scheme.starts_with?("http")
             response[:links] << {rel: field, href: value}
