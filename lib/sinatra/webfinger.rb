@@ -1,18 +1,6 @@
 require 'sinatra/base'
 require 'multi_json'
 
-# To use:
-#
-#   require 'sinatra/webfinger'
-#
-# In classic style:
-#
-#   webfinger(config)
-#
-# In modular style:
-#
-#
-
 module Sinatra
 
   module Webfinger
