@@ -12,7 +12,7 @@ Take an email address, and ask its domain about it using HTTPS. For example, inf
 https://konklone.com/.well-known/webfinger?resource=acct:eric@konklone.com
 ```
 
-See [webfinger.net](http://webfinger.net), [Mike Jones' description](http://www.packetizer.com/webfinger/), or Webfinger's official standard at [RFC 7033](http://tools.ietf.org/html/rfc7033) for more information.
+See [webfinger.net](http://webfinger.net), [Paul E. Jones' description](http://www.packetizer.com/webfinger/), or Webfinger's official standard at [RFC 7033](http://tools.ietf.org/html/rfc7033) for more information.
 
 ### Using sinatra-webfinger
 
