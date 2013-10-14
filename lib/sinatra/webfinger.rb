@@ -19,11 +19,12 @@ module Sinatra
     def webfinger(config)
       get '/.well-known/webfinger' do
         halt 500 unless config
-        halt 400 unless (resource = params[:resource]).present?
-        halt 400 unless (uri = URI.parse(resource) rescue nil)
+        halt 400 unless ![nil, ""].include?(params[:resource])
+        halt 400 unless (uri = URI.parse(params[:resource]) rescue nil)
         halt 404 unless (uri.scheme.nil? or uri.scheme == "acct") # acct only
 
         # allow only email for now
+        resource = params[:resource]
         no_scheme = resource.sub /^acct:/, ''
         account = config[no_scheme] || config[resource]
         halt 404 unless account

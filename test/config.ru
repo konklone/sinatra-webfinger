@@ -1,0 +1,2 @@
+require './classic'
+run Classic
