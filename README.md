@@ -30,32 +30,6 @@ Require it in your app:
 require 'sinatra/webfinger'
 ```
 
-Configure it for your email address:
-
-```ruby
-webfinger "eric@konklone.com" => {
-  name: "Eric Mill",
-  website: "https://konklone.com"
-}
-```
-
-This will add a GET endpoint at `/.well-known/webfinger?resource=acct:eric@konklone.com` that produces:
-
-```json
-{
-  "subject": "eric@konklone.com",
-  "properties": {
-    "http://schema.org/name": "Eric Mill"
-  },
-  "links": [
-    {
-      "rel": "http://webfinger.net/rel/profile-page",
-      "href": "https://konklone.com"
-    }
-  ]
-}
-```
-
 If you're using the modular style of Sinatra app, by subclassing Sinatra::Base, make sure to register the extension inside your class:
 
 ```ruby
@@ -66,27 +40,6 @@ class MyApp < Sinatra::Base
 end
 ```
 
-You might consider storing your Webfinger configuration in a YAML file ([example](#example-yaml-configuration)).
-
-### Behavior of /.well-known/webfinger
-
-The `Content-Type` of the response will be `application/jrd+json`, and [CORS](http://enable-cors.org/) will be enabled (`Access-Control-Allow-Origin` will be `*`).
-
-A **400** will be returned if:
-
-* There is no `resource` parameter provided in the query string.
-* There's any sort of Exception while parsing the `resource` URI.
-
-A **404** will be returned if:
-
-* A URI scheme other than `acct` is submitted.
-* A `resource` is submitted for an `acct` that isn't listed in the configuration.
-
-A **500** will be returned if:
-
-* `Sinatra::Webfinger.config` has not been set to anything.
-* There is any unplanned Exception.
-
 
 ### Configuration
 
@@ -96,7 +49,7 @@ For each field, if its value is a URI beginning with `http` or `https`, it will 
 
 Otherwise, the field will be added to the Webfinger `properties` object, by that key and value.
 
-That example again:
+For example:
 
 ```ruby
 webfinger "eric@konklone.com" => {
@@ -105,7 +58,7 @@ webfinger "eric@konklone.com" => {
 }
 ```
 
-So the above example will become:
+This will add a GET endpoint at `/.well-known/webfinger?resource=acct:eric@konklone.com` that produces:
 
 ```json
 {
@@ -143,6 +96,26 @@ If you saved that to `webfinger.yml`, you might configure your application using
 ```ruby
 webfinger YAML.load_file('webfinger.yml')
 ```
+
+### Behavior of /.well-known/webfinger
+
+The `Content-Type` of the response will be `application/jrd+json`, and [CORS](http://enable-cors.org/) will be enabled (`Access-Control-Allow-Origin` will be `*`).
+
+A **400** will be returned if:
+
+* There is no `resource` parameter provided in the query string.
+* There's any sort of Exception while parsing the `resource` URI.
+
+A **404** will be returned if:
+
+* A URI scheme other than `acct` is submitted.
+* A `resource` is submitted for an `acct` that isn't listed in the configuration.
+
+A **500** will be returned if:
+
+* `Sinatra::Webfinger.config` has not been set to anything.
+* There is any unplanned Exception.
+
 
 ### MIT License
 
