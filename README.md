@@ -124,4 +124,4 @@ Sinatra::Webfinger.config = config['webfinger']
 
 ### Public Domain
 
-This project is [dedicated to the public domain](LICENSE).
+This project is published [under the MIT License](LICENSE).
