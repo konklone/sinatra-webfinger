@@ -7,7 +7,8 @@ class Classic < Sinatra::Base
 
   webfinger "eric@konklone.com" => {
     name: "Eric Mill",
-    website: "https://konklone.com"
+    website: "https://konklone.com",
+    avatar: "http://example.com/avatar.png"
   }
 
   get('/') {'Hello world!'}

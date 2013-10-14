@@ -27,7 +27,7 @@ module Sinatra
         account.each do |field, value|
           field = field.to_s # allow symbols
           field_urn = URI.parse(field) rescue nil
-          if uri and uri.scheme and uri.scheme.start_with?("http")
+          if field_urn and field_urn.scheme and field_urn.scheme.start_with?("http")
             # do nothing, field is already a URN
           else
             # check if we have a best practice mapping for this field
