@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'sinatra-webfinger'
-  s.version     = '0.2.2'
+  s.version     = '0.2.3'
   s.summary     = "A Sinatra plugin to add basic Webfinger support for one or more email addresses."
   s.description = "A Sinatra plugin to add basic Webfinger support for one or more email addresses."
   s.author      = "Eric Mill"

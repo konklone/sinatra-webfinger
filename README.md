@@ -1,4 +1,4 @@
-## A Webfinger plugin for Sinatra.
+## A Webfinger extension for Sinatra.
 
 An easy Sinatra plugin for adding Webfinger support to your domain.
 
