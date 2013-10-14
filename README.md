@@ -77,7 +77,7 @@ This will add a GET endpoint at `/.well-known/webfinger?resource=acct:eric@konkl
 
 In Webfinger, fields are URIs, but you can use common short strings and `sinatra-webfinger` will convert those to the current best practice URIs for you.
 
-These URIs are defined in [urns.yml](./data/urns.yml).
+These URIs are defined in [urns.yml](./data/urns.yml). Please contribute to it!
 
 #### Configuration in YAML
 
