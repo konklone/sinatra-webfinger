@@ -7,7 +7,8 @@ class Classic < Sinatra::Base
 
   webfinger "eric@example.com" => {
     name: "Eric Example",
-    twitter: "@ericatexampledotcom"
+    twitter: "@ericatexampledotcom",
+    open_id: "http://example.com/ericexample"
   }
 
   get('/') {'Hello world!'}

@@ -4,6 +4,7 @@ require 'multi_json'
 module Sinatra
 
   module Webfinger
+
     def webfinger(config)
       get '/.well-known/webfinger' do
         halt 500 unless config
@@ -25,9 +26,16 @@ module Sinatra
 
         account.each do |field, value|
           field = field.to_s # allow symbols
+          field_urn = URI.parse(field) rescue nil
+          if uri and uri.scheme and uri.scheme.start_with?("http")
+            # do nothing, field is already a URN
+          else
+            # check if we have a best practice mapping for this field
+            field = Sinatra::Webfinger.fields[field] || field
+          end
 
           uri = URI.parse(value) rescue nil
-          if uri and uri.scheme and uri.scheme.starts_with?("http")
+          if uri and uri.scheme and uri.scheme.start_with?("http")
             response[:links] << {rel: field, href: value}
           else
             response[:properties][field] = value
@@ -39,6 +47,10 @@ module Sinatra
 
         MultiJson.encode response
       end
+    end
+
+    def self.fields
+      @fields ||= YAML.load_file(File.join(File.dirname(__FILE__), "../../data/urns.yml"))
     end
   end
 
