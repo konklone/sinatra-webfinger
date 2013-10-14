@@ -64,6 +64,7 @@ class MyApp < Sinatra::Base
 
   # ...rest of your app ...
 end
+```
 
 You might consider storing your Webfinger configuration in a YAML file ([example](#example-yaml-configuration)).
 
