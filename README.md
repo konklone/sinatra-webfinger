@@ -1,6 +1,6 @@
 ## A Webfinger extension for Sinatra.
 
-An easy Sinatra plugin for adding Webfinger support to your domain.
+An easy Sinatra extension for adding Webfinger support to your domain.
 
 ### What is Webfinger?
 
@@ -16,7 +16,7 @@ See [webfinger.net](http://webfinger.net), [Mike Jones' description](http://www.
 
 ### Using sinatra-webfinger
 
-**sinatra-webfinger** is a small Sinatra plugin optimized for single users, where you own your domain name, and you want to attach information to your email address.
+**sinatra-webfinger** is a small Sinatra extension optimized for single users, where you own your domain name, and you want to attach information to your email address.
 
 Install it:
 
