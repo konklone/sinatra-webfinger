@@ -2,8 +2,6 @@
 
 An easy Sinatra plugin for adding Webfinger support to your domain.
 
-**Current State:** Under rapid development to prepare for public release. Not announced, or guaranteed to be working yet.
-
 ### What is Webfinger?
 
 It's a way to attach information to your email address.
@@ -32,40 +30,42 @@ Require it in your app:
 require 'sinatra/webfinger'
 ```
 
-Configure it:
+Configure it for your email address:
 
 ```ruby
-Sinatra::Webfinger.config = [{
-  'acct': 'eric@konklone.com',
-  'properties': {
-    'name': 'Eric Mill',
-    'twitter': 'konklone'
-  },
-  'links': {
-    'website': 'https://konklone.com'
-  }
-}]
+webfinger "eric@konklone.com" => {
+  name: "Eric Mill",
+  website: "https://konklone.com"
+}
 ```
-
-You might consider storing this configuration in a YAML file ([example](#example-yaml-configuration)). Either way, only string values for keys are supported (no symbols).
 
 This will add a GET endpoint at `/.well-known/webfinger?resource=acct:eric@konklone.com` that produces:
 
 ```json
 {
-  "subject": "acct:eric@konklone.com",
+  "subject": "eric@konklone.com",
   "properties": {
-    "name": "Eric Mill",
-    "twitter": "konklone"
+    "http://schema.org/name": "Eric Mill"
   },
   "links": [
     {
-      "rel": "website",
+      "rel": "http://webfinger.net/rel/profile-page",
       "href": "https://konklone.com"
     }
   ]
 }
 ```
+
+If you're using the modular style of Sinatra app, by subclassing Sinatra::Base, make sure to register the extension inside your class:
+
+```ruby
+class MyApp < Sinatra::Base
+  register Sinatra::Webfinger
+
+  # ...rest of your app ...
+end
+
+You might consider storing your Webfinger configuration in a YAML file ([example](#example-yaml-configuration)).
 
 ### Behavior of /.well-known/webfinger
 
@@ -89,39 +89,60 @@ A **500** will be returned if:
 
 ### Configuration
 
-Configure `sinatra-webfinger` by setting `Sinatra::Webfinger.config` to an array of details. Each item in the array is a hash containing the following keys and values:
+Configure `sinatra-webfinger` by passing the `webfinger` method a hash where each key is an email address you want to attach details for. The value for each email address is another hash containing name/value pairs of data.
 
-`acct`: Email address that the rest of the fields apply to. e.g. `yourname@example.com`.
+For each field, if its value is a URI beginning with `http` or `https`, it will be added to the Webfinger `links` array, where the field will be the `rel` and the value will be the `href`.
 
-`properties`: A hash where each key is the name of a property, and each value is its value. e.g. `{"name": "Your Name"}`
+Otherwise, the field will be added to the Webfinger `properties` object, by that key and value.
 
-`links`: A hash where each key is the `rel` of the link, and each value is the `href` of the link. e.g. `{"website": "https://example.com"}`
-
-
-#### Example YAML configuration
-
-It may be easiest to serialize your Webfinger configuration in YAML, then load it into Ruby and assign it to `Sinatra::Webfinger.config`.
-
-An example YAML file for [the above example](#using-sinatra-webfinger) would be:
-
-```yaml
-webfinger:
-- acct: eric@konklone.com
-  properties:
-    name: Eric Mill
-    twitter: konklone
-  links:
-    website: https://konklone.com
-```
-
-If you saved that to `config.yml`, you might configure your application using:
+That example again:
 
 ```ruby
-config = YAML.load_file 'config.yml'
+webfinger "eric@konklone.com" => {
+  name: "Eric Mill",
+  website: "https://konklone.com"
+}
+``
 
-Sinatra::Webfinger.config = config['webfinger']
+So the above example will become:
+
+```json
+{
+  "subject": "eric@konklone.com",
+  "properties": {
+    "http://schema.org/name": "Eric Mill"
+  },
+  "links": [
+    {
+      "rel": "http://webfinger.net/rel/profile-page",
+      "href": "https://konklone.com"
+    }
+  ]
+}
 ```
 
-### Public Domain
+In Webfinger, fields are URIs, but you can use common short strings and `sinatra-webfinger` will convert those to the current best practice URIs for you.
+
+These URIs are defined in [urns.yml](./data/urns.yml).
+
+#### Configuration in YAML
+
+It may be easiest to serialize your Webfinger configuration in YAML, then load it into Ruby and pass it to the `webfinger` method.
+
+An example YAML file for the above example would be:
+
+```yaml
+eric@konklone.com:
+  name: Eric Mill
+  website: https://konklone.com
+```
+
+If you saved that to `webfinger.yml`, you might configure your application using:
+
+```ruby
+webfinger YAML.load_file('webfinger.yml')
+```
+
+### MIT License
 
 This project is published [under the MIT License](LICENSE).
